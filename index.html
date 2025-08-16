@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Interactive Dashboard</title>
+  <style>
+    .glow {
+      filter: drop-shadow(0 0 6px #0ff);
+    }
+    .zoomed {
+      transform: scale(1.1);
+      transform-origin: center;
+    }
+  </style>
+</head>
+<body>
+  <object id="dashboard" type="image/svg+xml" data="Dashboard.svg"></object>
+  <script>
+    const obj = document.getElementById('dashboard');
+    obj.addEventListener('load', () => {
+      const svgDoc = obj.contentDocument;
+      const parts = svgDoc.querySelectorAll('g');
+      parts.forEach(part => {
+        part.style.transition = 'transform 0.2s, filter 0.2s';
+        part.addEventListener('mouseenter', () => {
+          part.classList.add('glow', 'zoomed');
+        });
+        part.addEventListener('mouseleave', () => {
+          part.classList.remove('glow', 'zoomed');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
