@@ -3,15 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Interactive Dashboard</title>
-  <style>
-    .glow {
-      filter: drop-shadow(0 0 6px #0ff);
-    }
-    .zoomed {
-      transform: scale(1.1);
-      transform-origin: center;
-    }
-  </style>
+
 </head>
 <body>
   <object id="dashboard" type="image/svg+xml" data="Dashboard.svg"></object>
@@ -19,7 +11,16 @@
     const obj = document.getElementById('dashboard');
     obj.addEventListener('load', () => {
       const svgDoc = obj.contentDocument;
-      const parts = svgDoc.querySelectorAll('g');
+
+      const style = svgDoc.createElementNS('http://www.w3.org/2000/svg', 'style');
+      style.textContent = `
+        .glow { filter: drop-shadow(0 0 6px #0ff); }
+        .zoomed { transform: scale(1.1); transform-origin: center; }
+      `;
+      svgDoc.documentElement.appendChild(style);
+
+      const parts = svgDoc.querySelectorAll('image');
+
       parts.forEach(part => {
         part.style.transition = 'transform 0.2s, filter 0.2s';
         part.addEventListener('mouseenter', () => {
