@@ -1,36 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Interactive Dashboard</title>
+<meta charset="utf-8" />
+<title>Arsh Dashboard (Hover Hotspots)</title>
+<style>
+  html,body { height:100%; margin:0; background:#050c1a; }
+  .wrap { max-width: 1280px; margin: 0 auto; }
+  svg { width: 100%; height: auto; display: block; }
 
+  /* Make transforms and cursor nice on the hit areas */
+  .hit {
+    cursor: pointer;
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 180ms ease, opacity 180ms ease, filter 180ms ease;
+  }
+  .hit:hover { transform: scale(1.06); opacity: 1; }
+
+  /* Default hide outlines; show only on hover */
+  .outline { opacity: 0; transition: opacity 180ms ease; pointer-events: none; }
+  .hit:hover + .outline { opacity: 1; }
+
+  /* Optional: also power up hero on any hover */
+  #heroGlow { opacity: 0; transition: opacity 180ms ease; pointer-events: none; }
+  .hit:hover ~ #heroGlow { opacity: 1; }
+</style>
 </head>
 <body>
-  <object id="dashboard" type="image/svg+xml" data="Dashboard.svg"></object>
-  <script>
-    const obj = document.getElementById('dashboard');
-    obj.addEventListener('load', () => {
-      const svgDoc = obj.contentDocument;
+<div class="wrap">
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
 
-      const style = svgDoc.createElementNS('http://www.w3.org/2000/svg', 'style');
-      style.textContent = `
-        .glow { filter: drop-shadow(0 0 6px #0ff); }
-        .zoomed { transform: scale(1.1); transform-origin: center; }
-      `;
-      svgDoc.documentElement.appendChild(style);
+  <defs>
+    <!-- Soft colored glow filters -->
+    <filter id="glow-blue" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6"  flood-color="#00D1FF" flood-opacity="1"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#00D1FF" flood-opacity=".6"/>
+    </filter>
+    <filter id="glow-green" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6"  flood-color="#00FFA3" flood-opacity="1"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#00FFA3" flood-opacity=".6"/>
+    </filter>
+    <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6"  flood-color="#FFB84A" flood-opacity="1"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="14" flood-color="#FFB84A" flood-opacity=".6"/>
+    </filter>
+  </defs>
 
-      const parts = svgDoc.querySelectorAll('image');
+  <!-- ***********************
+       1) Your base artwork
+     *********************** -->
+  <!-- Paste the big <image ...> blocks from your Dashboard.svg right here. -->
+  <!-- Example: -->
+  <!-- <image width="1920" height="1080" href="data:image/png;base64,...." /> -->
+  <!-- YOUR EMBEDDED IMAGE HERE -->
 
-      parts.forEach(part => {
-        part.style.transition = 'transform 0.2s, filter 0.2s';
-        part.addEventListener('mouseenter', () => {
-          part.classList.add('glow', 'zoomed');
-        });
-        part.addEventListener('mouseleave', () => {
-          part.classList.remove('glow', 'zoomed');
-        });
-      });
-    });
-  </script>
+  <!-- ***********************
+       2) Hotspots + Outlines
+     *********************** -->
+
+  <!-- BODY (left) -->
+  <g id="body-panel">
+    <!-- Invisible hit area (adjust x/y/width/height to match your left hex/panel) -->
+    <rect class="hit" x="220" y="420" width="420" height="380" fill="transparent"/>
+    <!-- Visible outline that appears on hover (pick a shape: hexagon or rounded rect) -->
+    <rect class="outline" x="220" y="420" width="420" height="380"
+          rx="24" ry="24" fill="none" stroke="#00FFA3" stroke-width="4" filter="url(#glow-green)"/>
+  </g>
+
+  <!-- MIND (top) -->
+  <g id="mind-panel">
+    <rect class="hit" x="1060" y="120" width="420" height="320" fill="transparent"/>
+    <rect class="outline" x="1060" y="120" width="420" height="320"
+          rx="24" ry="24" fill="none" stroke="#00D1FF" stroke-width="4" filter="url(#glow-blue)"/>
+  </g>
+
+  <!-- SPIRIT (right) -->
+  <g id="spirit-panel">
+    <rect class="hit" x="1200" y="560" width="420" height="360" fill="transparent"/>
+    <rect class="outline" x="1200" y="560" width="420" height="360"
+          rx="24" ry="24" fill="none" stroke="#FFB84A" stroke-width="4" filter="url(#glow-gold)"/>
+  </g>
+
+  <!-- Optional: hero “power glow” that lights up when any hit area is hovered -->
+  <g id="heroGlow">
+    <!-- Put a big soft ellipse roughly behind the center hero -->
+    <ellipse cx="960" cy="540" rx="220" ry="260" fill="#00D1FF" opacity=".12" />
+  </g>
+
+</svg>
+</div>
+
 </body>
 </html>
