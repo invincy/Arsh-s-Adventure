@@ -1,13 +1,17 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-interface UnlockState {
+
+export interface UnlockState {
+
   mind: boolean
   body: boolean
   spirit: boolean
 }
 
-interface GameState {
+
+export interface GameState {
+
   unlocked: UnlockState
   sfx: boolean
   reducedMotion: boolean
@@ -16,7 +20,9 @@ interface GameState {
 }
 
 export const useGameStore = create<GameState>()(
-  persist(
+
+  persist<GameState>(
+
     (set) => {
       const reduced =
         typeof window !== 'undefined' &&

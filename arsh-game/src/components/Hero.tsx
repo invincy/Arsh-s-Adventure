@@ -16,7 +16,11 @@ export default function Hero({ powered = false }: Props) {
     const tl = gsap.timeline({ repeat: -1, yoyo: true })
     tl.to(ref.current, { y: -10, duration: 2, ease: 'power1.inOut' })
       .to(ref.current, { scaleY: 1.05, transformOrigin: '50% 50%', duration: 2 }, '<')
-    return () => tl.kill()
+
+    return () => {
+      tl.kill()
+    }
+
   }, [reduced])
 
   return <HeroSVG ref={ref} className={`hero-svg ${powered ? 'powered' : ''}`} />
