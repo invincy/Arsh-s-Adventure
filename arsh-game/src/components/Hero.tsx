@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { ReactComponent as HeroSVG } from '@/assets/svg/hero.svg'
+import HeroSVG from '@/assets/svg/hero.svg?react'
 import { gsap } from 'gsap'
 import { useGameStore } from '@/store/useGameStore'
 
