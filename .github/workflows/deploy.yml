@@ -17,13 +17,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
+      - uses: actions/configure-pages@v5
+
       - name: Install dependencies
         run: npm install
         working-directory: arsh-game
       - name: Build
         run: npm run build
         working-directory: arsh-game
-      - uses: actions/upload-pages-artifact@v1
+
+      - uses: actions/upload-pages-artifact@v3
+
         with:
           path: arsh-game/dist
   deploy:
@@ -31,6 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
+
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deploy
-        uses: actions/deploy-pages@v2
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
