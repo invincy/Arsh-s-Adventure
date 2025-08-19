@@ -26,11 +26,13 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: arsh-game
-
+      - name: Copy build output
+        run: |
+          rm -rf docs
+          cp -r arsh-game/dist docs
       - uses: actions/upload-pages-artifact@v3
-
         with:
-          path: arsh-game/dist
+          path: docs
   deploy:
     needs: build
     runs-on: ubuntu-latest
