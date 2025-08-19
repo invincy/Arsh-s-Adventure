@@ -1,0 +1,1 @@
+import{j as s,L as a}from"./index-DwcAubD1.js";function i(){return s.jsxs("div",{className:"game-stub",children:[s.jsx("h1",{children:"Body Game"}),s.jsx("p",{children:"Mini-game coming soon."}),s.jsx("div",{id:"game"}),s.jsx(a,{to:"/",children:"Back to Dashboard"})]})}export{i as default};
